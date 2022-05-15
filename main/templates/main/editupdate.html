@@ -1,0 +1,30 @@
+{% extends 'main/base.html' %}
+{% block containt %}
+<div class="container">
+    <div class="row">
+        
+            <div class="col-md-8 col-md-offset-2">
+                <h2 class="alert alert-info text-center">Student Update Information</h2>
+                {% if messages %}
+                    {% for message in messages %}
+                    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                    <script>
+                            swal("Perfect","{{message}}","success");
+                    </script>
+                    {% endfor %}
+                {% endif %}
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <input type="submit" value="Update" class="btn btn-primary">
+                    <a href="{% url 'addandshow' %}" class="btn btn-success">Back to home</a>
+                </form>
+            </div>
+
+    </div>
+</div>
+{% endblock containt %}
+
+
+
+

@@ -1,0 +1,91 @@
+{% extends 'main/base.html' %}
+
+{% block containt %}
+    <style>
+        .action{
+            display: inline-flex;  
+        }
+        .table_header{
+            color:#7446a6;
+            font-size: larger;
+        }
+        #table_row:hover{
+            color:black;
+            background-color:#afb569;
+        }
+    </style>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4  ">
+                <h3 class="alert alert-info text-center"> Add student</h3>
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == 'success'%}
+                        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+                            <script> 
+                                swal("Done",'{{message}}','success') 
+                            </script>
+                    {%endif%}
+                    {% if  message.tags == 'warning'%}
+                        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+                        <script>
+                            swal("{{message}}")
+                        </script>
+                    {% endif %}
+                {% endfor %}
+             {% endif %}
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                  <center> <input type="submit" value="Submit" class="btn btn-success "> </center> 
+                </form>
+                {% comment %} {% if messages %}
+                    {% for message in messages %}
+                                <!-- <p>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }} </p>-->
+                        <script>    
+                            swal('{{message}}')
+                        </script>
+                    {% endfor %}
+                {% endif %} {% endcomment %}
+
+            </div>
+            <div class="col-sm-8 ">
+                <h3 class="alert alert-danger text-center ">All Student Details</h3>
+                {% if values %}
+                        <table class="table  table-hover ">
+                            <thead>
+                                <tr class="table_header">
+                                    <th scope="col">ID</th>
+                                    <th scope="col">NAME</th>
+                                    <th scope="col">EMAIL</th>
+                                    <th scope="col">PASSWORD</th>
+                                    <th scope="col">ACTION </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for value in values %}
+                                        <tr  id="table_row">
+                                            <td>{{value.id}}</td>
+                                            <td>{{value.name}}</td>
+                                            <td>{{value.email}}</td>
+                                            <td>{{value.password}}</td>
+                                            <td class="action">
+                                                <a href="{% url 'edit' value.id %}" class="btn btn-primary" style="margin-right:15px;" > Edit </a>
+                                                <form action="{% url 'delete' value.id %}" method="post" >
+                                                    {% csrf_token %}
+                                                    <input type="submit" value="Delete" class='btn btn-danger'>
+
+                                                </form>                              
+                                            </td>
+                                        </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+  
+{% endblock containt %}
+
+
